@@ -1,0 +1,1 @@
+// codigo js para la gráfica de barra
