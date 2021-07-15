@@ -1,1 +1,11 @@
 /*codigo de estilo*/
+
+.tooltip {
+    position: absolute;
+    pointer-events: none;
+    visibility: hidden;
+    background-color: white;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}

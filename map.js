@@ -47,20 +47,80 @@ function drawMap(featureCollection) {
     d.avgprice = d.properties.avgprice;
     //d.avgbedrooms = d.properties.avgbedrooms;
     });
-    
+
+    var tooltip = d3
+    .select("#map")
+    .append("div")
+    .attr("class","tooltip")
+    .style("padding", 5);
+
+
     var createdPath = svg.selectAll('path')
-        .data(features)
-        .enter()
-        .append('path')
-        .attr('d', (d) => pathProjection(d))
-        .attr("opacity", function(d, i) {
-            d.opacity = 1
-            return d.opacity})
-        .attr("fill", d => d.color)
+    .data(features)
+    .enter()
+    .append('path')
+    .attr("id", (d) => d.idx)
+    .attr('d', (d) => pathProjection(d))
+    .attr("opacity", function(d, i) {
+        d.opacity = 1
+        return d.opacity})
+    .attr("fill", d => d.color)
+    .on("mouseover", mouseOverMap)
+    .on("click", function (event, d) {
+        if (d.opacity == 1){
+            d3.selectAll("path").attr("opacity", 0);
+            d3.select(this).attr("opacity", 1);
+        } else if (d.opacity == 0) {
+            d3.selectAll("path").attr("opacity", 1);
+        }}
+    );
+    //.on("click", onlyZone); Zoom y centrar zona al hacer clic
+
+/*createdPath.append("g")
+    .append("rect")
+    .attr("x", width/2 + idx*1)
+    .attr("y", height/2 + 25)
+    .attr("width", 50)
+    .attr("height", 50)
+    .attr("fill", "green");*/
+
+function mouseOverMap (event, d) {
+    d3.select(this)
+    .transition()
+    .duration(1000);
+
+    tooltip
+    .transition()
+    .duration(200)
+    .style("visibility", "visible")
+    .style("left", event.pageX + 20 + "px")
+    .style("top", event.pageY - 30 + "px")
+    .text(`Barrio: ${d.properties.name} Precio Medio: ${d.avgprice}`); //Intentar poner multilínea
+
+
+};
+
+
+
+
+
+/*function onlyZone(event, d) {
+    d3.selectAll(this)
+    .transition("showzoom")
+    .duration(0)
+    .delay(0)
+    .attr("opacity", function (d));
+
+    d3.selectAll("path")
+    .transition("hidden")
+    .duration(200)
+    .delay(200)
+    .attr("opacity", 0);
+};*/
+
 
 
 }
-
 
 /*     createdPath.on('click', function(event, d) {
         d.opacity = d.opacity ? 0 : 1;
