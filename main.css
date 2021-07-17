@@ -9,3 +9,11 @@
     border-width: 1px;
     border-radius: 5px;
 }
+
+.barcharts_bedrooms {
+    border: black solid;
+    color: green;
+    width: 50;
+    
+
+}
